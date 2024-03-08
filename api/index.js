@@ -1,20 +1,22 @@
 const express = require('express')
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const userRoutes = require('./routes/user.route.js');
 require('dotenv').config()
 
 const app = express();
 
 
-mongoose.connect(process.env.MONGO)
+mongoose
+    .connect(process.env.MONGO)
 
-.then(() => {
-    console.log('mongoDB is connected');
-})
+    .then(() => {
+        app.listen(3000, () => {
+            console.log('App is runnig');
+        })
+    })
+    
+    .catch((err) => {
+        console.log({"ERROR" : err});
+    })
 
-.catch((err) => {
-    console.log({"ERROR" : err});
-})
-
-app.listen(3000, () => {
-    console.log('App is runnig');
-})
+app.use('/api/user', userRoutes)
